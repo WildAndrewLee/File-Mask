@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
-using System.IO;
-
 /**
  * File Mask
  * 
@@ -15,6 +12,8 @@ using System.IO;
  * @author Andrew Lee
  * @version 1.0.0
  */
+using File_Mask.Properties;
+
 namespace File_Mask.lib
 {
 	/**
@@ -31,51 +30,51 @@ namespace File_Mask.lib
 		 * Creates a hash based on the specified string and hashing
 		 * algorithm.
 		 */
-		public static string hash(string str, int mode)
+		public static string Hash(string str, int mode)
 		{
-			byte[] bytes = Encoding.UTF8.GetBytes(str);
+			var bytes = Encoding.UTF8.GetBytes(str);
 
 			HashAlgorithm algorithm = null;
 
 			switch (mode)
 			{
-				case Crypt.SHA256:
+				case SHA256:
 					algorithm = new SHA256Managed();
 					break;
 
-				case Crypt.SHA512:
+				case SHA512:
 					algorithm = new SHA512Managed();
 					break;
 
-				case Crypt.MD5:
+				case MD5:
 					algorithm = new MD5CryptoServiceProvider();
 					break;
 			}
 
+			Debug.Assert(algorithm != null, "algorithm != null");
+
 			bytes = algorithm.ComputeHash(bytes);
 
-			string hash = "";
-
-			foreach(byte b in bytes) hash += String.Format("{0:x2}", b);
-
-			return hash;
+			return bytes.Aggregate("", (current, b) => current + String.Format("{0:x2}", b));
 		}
 
 		/**
 		 * Encrypts a specified string using AES encryption and returns
 		 * the encrypted string and key used.
 		 */
-		public static string[] encrypt(string str)
+		public static string[] Encrypt(string str)
 		{
 			byte[] bytes = Encoding.UTF8.GetBytes(str);
 
-			AesManaged manager = new AesManaged();
-			manager.KeySize = 256;
-			manager.Padding = PaddingMode.PKCS7;
+			var manager = new AesManaged
+			{
+				KeySize = 256, Padding = PaddingMode.PKCS7
+			};
+
 			manager.GenerateKey();
 			manager.GenerateIV();
 
-			ICryptoTransform c = manager.CreateEncryptor();
+			var c = manager.CreateEncryptor();
 
 			bytes = c.TransformFinalBlock(bytes, 0, bytes.Length);
 
@@ -83,21 +82,23 @@ namespace File_Mask.lib
 			hash += BitConverter.ToString(bytes).Replace("-", "");
 			string key = BitConverter.ToString(manager.Key).Replace("-", "");
 
-			return new string[]{hash, key};
+			return new[]{hash, key};
 		}
 
 		/**
 		 * Decrypts an AES hash using the specified key.
 		 */
-		public static string decrypt(string hash, string key)
+		public static string Decrypt(string hash, string key)
 		{
 			try
 			{
-				AesManaged manager = new AesManaged();
-				manager.KeySize = 256;
-				manager.Padding = PaddingMode.PKCS7;
-				manager.Key = Util.HexToBytes(key);
-				manager.IV = Util.HexToBytes(hash.Substring(0, 32));
+				var manager = new AesManaged
+				{
+					KeySize = 256,
+					Padding = PaddingMode.PKCS7,
+					Key = Util.HexToBytes(key),
+					IV = Util.HexToBytes(hash.Substring(0, 32))
+				};
 
 				ICryptoTransform c = manager.CreateDecryptor();
 
@@ -108,7 +109,7 @@ namespace File_Mask.lib
 			}
 			catch
 			{
-				System.Windows.Forms.MessageBox.Show("Invalid hash/key specified.", "Error");
+				System.Windows.Forms.MessageBox.Show(Resources.Crypt_Decrypt_Invalid_hash_key_specified_, Resources.Crypt_Decrypt_Error);
 				return null;
 			}
 		}

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -35,10 +32,7 @@ namespace File_Mask.lib
 		 */
 		public static bool IsEmpty(params TextBox[] boxes)
 		{
-			foreach (TextBox box in boxes)
-				if (IntToBool(box.Text.Trim().Length)) return false;
-
-			return true;
+			return boxes.All(box => !IntToBool(box.Text.Trim().Length));
 		}
 
 		/**
@@ -46,19 +40,15 @@ namespace File_Mask.lib
 		 */
 		public static bool IsFilled(params TextBox[] boxes)
 		{
-			foreach (TextBox box in boxes)
-				if (!IntToBool(box.Text.Trim().Length)) return false;
-
-			return true;
+			return boxes.All(box => IntToBool(box.Text.Trim().Length));
 		}
 
 		/**
 		 * Returns true if all booleans in the array are true else false.
 		 */
-		public static bool all(bool[] bools)
+		public static bool All(bool[] bools)
 		{
-			foreach (bool test in bools) if (!test) return false;
-			return true;
+			return bools.All(test => test);
 		}
 
 		/**
@@ -66,13 +56,12 @@ namespace File_Mask.lib
 		 */
 		public static Color BitsToColor(int bits)
 		{
-			int alpha = Convert.ToInt32((bits >> 24) & 0xFF);
-
+			int alpha = Convert.ToInt32(bits >> 24 & 0xFF);
 			int red = (bits >> 16) & 0xFF;
 			int green = (bits >> 8) & 0xFF;
 			int blue = bits & 0xFF;
 
-			Color color = Color.FromArgb(255, red, green, blue);
+			Color color = Color.FromArgb(alpha, red, green, blue);
 
 			return color;
 		}
@@ -99,13 +88,13 @@ namespace File_Mask.lib
 		 */
 		public static byte[] HexToBytes(string hex)
 		{
-			byte[] bytes = new byte[hex.Length / 2];
+			var bytes = new byte[hex.Length / 2];
 
-			string charset = "0123456789ABCDEF";
+			const string charset = "0123456789ABCDEF";
 
 			for (int n = 0, length = hex.Length / 2; n < length; n++)
 			{
-				int data = charset.IndexOf(hex.ElementAt(n)) * 16;
+				var data = charset.IndexOf(hex.ElementAt(n)) * 16;
 				data += charset.IndexOf(hex.ElementAt(n + 1));
 
 				bytes[n] = (byte)data;

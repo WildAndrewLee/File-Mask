@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 /**
  * File Mask
@@ -19,16 +16,16 @@ namespace File_Mask
 	 */
 	class MaskException : Exception
 	{
-		private string notice = null;
+		private readonly string _notice;
 
 		public MaskException(string notice)
 		{
-			this.notice = notice;
+			_notice = notice;
 		}
 
-		public string getNotice()
+		public string GetNotice()
 		{
-			return this.notice;
+			return _notice;
 		}
 	}
 }

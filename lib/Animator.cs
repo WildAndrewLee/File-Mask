@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -21,61 +18,62 @@ namespace File_Mask.lib
 	 */
 	class Animator
 	{
-		private Control control = null;
-		private Size size = new Size(-1, -1);
-		private int width = -1;
-		private int height = -1;
-		private Timer timer = null;
-		private int ticks = -1;
-		private int tick = -1;
-		private int time = -1;
+		private readonly Control _control;
+		private Size _size = new Size(-1, -1);
+		private int _width = -1;
+		private int _height = -1;
+		private Timer _timer;
+		private int _ticks = -1;
+		private int _tick = -1;
 
 		/**
 		 * Constructor.
 		 */
 		public Animator(Control control)
 		{
-			this.control = control;
-			this.size = control.Size;
+			_control = control;
+			_size = control.Size;
 
-			bootstrap();
+			Bootstrap();
 		}
 
 		/**
 		 * Sets up various elements of the animator on creation.
 		 */
-		private void bootstrap()
+		private void Bootstrap()
 		{
-			this.timer = new Timer();
-			this.timer.Interval = 1000 / 60;
+			_timer = new Timer
+			{
+				Interval = 1000/60
+			};
 
-			this.timer.Tick += new EventHandler(timerTick);
+			_timer.Tick += TimerTick;
 		}
 
 		/**
 		 * Resets the animator.
 		 */
-		private void reset()
+		private void Reset()
 		{
-			this.time = this.ticks = this.height = this.width = 0;
-			this.timer.Stop();
-			this.timer.Enabled = false;
+			_ticks = _height = _width = 0;
+			_timer.Stop();
+			_timer.Enabled = false;
 		}
 
 		/**
 		 * Executes every time to timer ticks and resizes the specified control.
 		 */
-		private void timerTick(Object myObject, EventArgs myEventArgs)
+		private void TimerTick(Object myObject, EventArgs myEventArgs)
 		{
 			/**
 			 * Check to see if this is the last tick.
 			 * If it is then set the control to the given desired size.
 			 */
-			if (this.tick == this.ticks)
+			if (_tick == _ticks)
 			{
-				this.control.Size = new Size(width, height);
+				_control.Size = new Size(_width, _height);
 
-				reset();
+				Reset();
 			}
 			else
 			{
@@ -83,17 +81,17 @@ namespace File_Mask.lib
 				 * Calculate the interval at which to resize the control.
 				 * Apply the new size to the control.
 				 */
-				double widthInteveral = (this.width - this.size.Width) / ticks;
-				double heightInterval = (this.height - this.size.Height) / ticks;
+				double widthInteveral = (_width - _size.Width) / _ticks;
+				double heightInterval = (_height - _size.Height) / _ticks;
 
-				int newWidth = (int)(this.size.Width + widthInteveral * tick);
-				int newHeight = (int)(this.size.Height + heightInterval * tick);
+				var newWidth = (int)(_size.Width + widthInteveral * _tick);
+				var newHeight = (int)(_size.Height + heightInterval * _tick);
 
-				this.control.Size = new Size(newWidth, newHeight);
+				_control.Size = new Size(newWidth, newHeight);
 
-				this.control.Update();
+				_control.Update();
 
-				this.tick++;
+				_tick++;
 			}
 
 			/**
@@ -105,19 +103,18 @@ namespace File_Mask.lib
 		/**
 		 * User interface to initiate the resizing of a control.
 		 */
-		public void resize(int width, int height, int time)
+		public void Resize(int width, int height, int time)
 		{
-			if (this.size.Width != width || this.size.Height != height)
+			if (_size.Width != width || _size.Height != height)
 			{
-				this.time = time;
-				this.ticks = time / timer.Interval;
-				this.height = height;
-				this.width = width;
+				_ticks = time / _timer.Interval;
+				_height = height;
+				_width = width;
 
-				this.tick = 0;
+				_tick = 0;
 
-				timer.Enabled = true;
-				timer.Start();
+				_timer.Enabled = true;
+				_timer.Start();
 			}
 		}
 	}

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-/**
+﻿/**
  * File Mask
  * 
  * An open source application written in C# to facilitate the
