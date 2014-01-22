@@ -5,14 +5,16 @@
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.0
+ * @version 1.0.1
  */
+
 namespace File_Mask
 {
 	/**
 	 * List of allowed image types.
 	 */
-	enum Formats
+
+	internal enum Formats
 	{
 		PNG,
 		JPEG,

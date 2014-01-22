@@ -9,26 +9,29 @@ using System.Windows.Forms;
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.0
+ * @version 1.0.1
  */
+
 namespace File_Mask.lib
 {
 	/**
 	 * Used to animate the size of various window controls.
 	 */
-	class Animator
+
+	internal class Animator
 	{
 		private readonly Control _control;
-		private Size _size = new Size(-1, -1);
-		private int _width = -1;
 		private int _height = -1;
-		private Timer _timer;
-		private int _ticks = -1;
+		private Size _size = new Size(-1, -1);
 		private int _tick = -1;
+		private int _ticks = -1;
+		private Timer _timer;
+		private int _width = -1;
 
 		/**
 		 * Constructor.
 		 */
+
 		public Animator(Control control)
 		{
 			_control = control;
@@ -40,6 +43,7 @@ namespace File_Mask.lib
 		/**
 		 * Sets up various elements of the animator on creation.
 		 */
+
 		private void Bootstrap()
 		{
 			_timer = new Timer
@@ -53,6 +57,7 @@ namespace File_Mask.lib
 		/**
 		 * Resets the animator.
 		 */
+
 		private void Reset()
 		{
 			_ticks = _height = _width = 0;
@@ -63,6 +68,7 @@ namespace File_Mask.lib
 		/**
 		 * Executes every time to timer ticks and resizes the specified control.
 		 */
+
 		private void TimerTick(Object myObject, EventArgs myEventArgs)
 		{
 			/**
@@ -81,11 +87,11 @@ namespace File_Mask.lib
 				 * Calculate the interval at which to resize the control.
 				 * Apply the new size to the control.
 				 */
-				double widthInteveral = (_width - _size.Width) / _ticks;
-				double heightInterval = (_height - _size.Height) / _ticks;
+				double widthInteveral = (_width - _size.Width)/_ticks;
+				double heightInterval = (_height - _size.Height)/_ticks;
 
-				var newWidth = (int)(_size.Width + widthInteveral * _tick);
-				var newHeight = (int)(_size.Height + heightInterval * _tick);
+				var newWidth = (int) (_size.Width + widthInteveral*_tick);
+				var newHeight = (int) (_size.Height + heightInterval*_tick);
 
 				_control.Size = new Size(newWidth, newHeight);
 
@@ -103,11 +109,12 @@ namespace File_Mask.lib
 		/**
 		 * User interface to initiate the resizing of a control.
 		 */
+
 		public void Resize(int width, int height, int time)
 		{
 			if (_size.Width != width || _size.Height != height)
 			{
-				_ticks = time / _timer.Interval;
+				_ticks = time/_timer.Interval;
 				_height = height;
 				_width = width;
 

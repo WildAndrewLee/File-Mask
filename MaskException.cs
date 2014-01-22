@@ -7,14 +7,16 @@
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.0
+ * @version 1.0.1
  */
+
 namespace File_Mask
 {
 	/**
 	 * Used to contain custom exceptions.
 	 */
-	class MaskException : Exception
+
+	internal class MaskException : Exception
 	{
 		private readonly string _notice;
 

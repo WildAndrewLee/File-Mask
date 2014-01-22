@@ -49,6 +49,8 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.aesContainer = new System.Windows.Forms.Panel();
+			this.browseHash = new System.Windows.Forms.Button();
+			this.browseKey = new System.Windows.Forms.Button();
 			this.noticeContainer.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -135,7 +137,7 @@
 			this.hash.Location = new System.Drawing.Point(74, 3);
 			this.hash.Name = "hash";
 			this.hash.ReadOnly = true;
-			this.hash.Size = new System.Drawing.Size(242, 20);
+			this.hash.Size = new System.Drawing.Size(174, 20);
 			this.hash.TabIndex = 8;
 			this.hash.Click += new System.EventHandler(this.hash_Click);
 			// 
@@ -173,7 +175,7 @@
 			this.key.Location = new System.Drawing.Point(74, 29);
 			this.key.Name = "key";
 			this.key.ReadOnly = true;
-			this.key.Size = new System.Drawing.Size(242, 20);
+			this.key.Size = new System.Drawing.Size(174, 20);
 			this.key.TabIndex = 12;
 			this.key.Click += new System.EventHandler(this.key_Click);
 			// 
@@ -223,28 +225,50 @@
 			this.panel2.Controls.Add(this.removeMask);
 			this.panel2.Controls.Add(this.run);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(0, 55);
+			this.panel2.Location = new System.Drawing.Point(0, 54);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(328, 53);
+			this.panel2.Size = new System.Drawing.Size(328, 52);
 			this.panel2.TabIndex = 15;
 			// 
 			// aesContainer
 			// 
+			this.aesContainer.Controls.Add(this.browseKey);
+			this.aesContainer.Controls.Add(this.browseHash);
 			this.aesContainer.Controls.Add(this.key);
 			this.aesContainer.Controls.Add(this.label3);
 			this.aesContainer.Controls.Add(this.hash);
 			this.aesContainer.Controls.Add(this.label4);
 			this.aesContainer.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.aesContainer.Location = new System.Drawing.Point(0, 108);
+			this.aesContainer.Location = new System.Drawing.Point(0, 106);
 			this.aesContainer.Name = "aesContainer";
 			this.aesContainer.Size = new System.Drawing.Size(328, 0);
 			this.aesContainer.TabIndex = 16;
+			// 
+			// browseHash
+			// 
+			this.browseHash.Location = new System.Drawing.Point(250, 1);
+			this.browseHash.Name = "browseHash";
+			this.browseHash.Size = new System.Drawing.Size(66, 23);
+			this.browseHash.TabIndex = 13;
+			this.browseHash.Text = "Browse";
+			this.browseHash.UseVisualStyleBackColor = true;
+			this.browseHash.Click += new System.EventHandler(this.browseHash_Click);
+			// 
+			// browseKey
+			// 
+			this.browseKey.Location = new System.Drawing.Point(250, 27);
+			this.browseKey.Name = "browseKey";
+			this.browseKey.Size = new System.Drawing.Size(66, 23);
+			this.browseKey.TabIndex = 14;
+			this.browseKey.Text = "Browse";
+			this.browseKey.UseVisualStyleBackColor = true;
+			this.browseKey.Click += new System.EventHandler(this.browseKey_Click);
 			// 
 			// Frame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(328, 108);
+			this.ClientSize = new System.Drawing.Size(328, 106);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.aesContainer);
 			this.Controls.Add(this.panel1);
@@ -289,6 +313,8 @@
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Panel aesContainer;
 		private System.Windows.Forms.Label value;
+		private System.Windows.Forms.Button browseKey;
+		private System.Windows.Forms.Button browseHash;
 	}
 }
 

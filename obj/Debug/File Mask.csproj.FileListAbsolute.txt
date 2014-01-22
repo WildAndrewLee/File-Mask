@@ -1,0 +1,12 @@
+C:\Users\Andrew\Documents\Visual Studio 11\Projects\Image Mask\Image Mask\bin\Debug\File Mask.exe.config
+C:\Users\Andrew\Documents\Visual Studio 11\Projects\Image Mask\Image Mask\obj\Debug\File Mask.exe
+C:\Users\Andrew\Documents\Visual Studio 11\Projects\Image Mask\Image Mask\obj\Debug\File Mask.pdb
+C:\Users\Andrew\documents\visual studio 11\Projects\Image Mask\Image Mask\bin\Debug\File Mask.exe
+C:\Users\Andrew\documents\visual studio 11\Projects\Image Mask\Image Mask\bin\Debug\File Mask.pdb
+C:\Users\Andrew\documents\visual studio 11\Projects\Image Mask\Image Mask\obj\Debug\File Mask.csprojResolveAssemblyReference.cache
+C:\Users\Andrew\documents\visual studio 11\Projects\Image Mask\Image Mask\obj\Debug\File_Mask.Frame.resources
+C:\Users\Andrew\documents\visual studio 11\Projects\Image Mask\Image Mask\obj\Debug\File_Mask.Properties.Resources.resources
+C:\Users\Andrew\documents\visual studio 11\Projects\Image Mask\Image Mask\obj\Debug\File Mask.csproj.GenerateResource.Cache
+\\PIKACHU\Users\Andrew\Documents\Visual Studio 11\Projects\Image Mask\Image Mask\bin\Debug\File Mask.exe.config
+\\PIKACHU\Users\Andrew\Documents\Visual Studio 11\Projects\Image Mask\Image Mask\obj\Debug\File Mask.exe
+\\PIKACHU\Users\Andrew\Documents\Visual Studio 11\Projects\Image Mask\Image Mask\obj\Debug\File Mask.pdb

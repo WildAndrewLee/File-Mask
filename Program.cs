@@ -8,17 +8,15 @@ using System.Windows.Forms;
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.0
+ * @version 1.0.1
  */
+
 namespace File_Mask
 {
-	static class Program
+	internal static class Program
 	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
 		[STAThread]
-		static void Main()
+		private static void Main()
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

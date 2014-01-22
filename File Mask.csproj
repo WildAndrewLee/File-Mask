@@ -72,6 +72,8 @@
     </Compile>
     <Compile Include="lib\Animator.cs" />
     <Compile Include="lib\Crypt.cs" />
+    <Compile Include="lib\tour\Square.cs" />
+    <Compile Include="lib\tour\Tour.cs" />
     <Compile Include="lib\Util.cs" />
     <Compile Include="Masker.cs" />
     <Compile Include="MaskException.cs" />
@@ -107,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lulz.ico" />
+    <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

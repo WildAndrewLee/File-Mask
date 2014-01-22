@@ -1,0 +1,7 @@
+﻿1. Add Support for Knight's Tour
+2. Add Support for Uploading Public and Private Keys
+
+Notes for Tours:
+Width and height may not be odd.
+The width may not be 1, 2, or 4.
+The width may not be 3 while the height is 4, 6, or 8.

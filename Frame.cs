@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using File_Mask.lib;
-using System.IO;
-using System.Threading;
+using File_Mask.lib.tour;
 using File_Mask.Properties;
 
 /**
@@ -15,13 +16,15 @@ using File_Mask.Properties;
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.0
+ * @version 1.0.1
  */
+
 namespace File_Mask
 {
 	/**
 	 * GUI backend for the program
 	 */
+
 	public partial class Frame : Form
 	{
 		public Frame()
@@ -32,6 +35,7 @@ namespace File_Mask
 		/**
 		 * Hide the AES fields.
 		 */
+
 		private void HideAes()
 		{
 			var animator = new Animator(this);
@@ -44,6 +48,7 @@ namespace File_Mask
 		/**
 		 * Show AES fields.
 		 */
+
 		private void ShowAes()
 		{
 			var animator = new Animator(this);
@@ -56,6 +61,7 @@ namespace File_Mask
 		/**
 		 * Mask the specified image and file.
 		 */
+
 		private void MaskImage()
 		{
 			run.Text = Resources.Frame_MaskImage_Running___;
@@ -63,32 +69,34 @@ namespace File_Mask
 			string[] h = null;
 
 			//New thread so the GUI thread doesn't get clogged.
-			var thread = new Thread(() =>
-				{
-					h = Masker.Mask(selectedFile.Text, selectedImage.Text);
-				}
-			);
+			var thread = new Thread(() => { h = Masker.Mask(selectedFile.Text, selectedImage.Text); }
+				);
 
 			thread.Start();
 			thread.Join();
 
-			hash.Text = h[0];
-			key.Text = h[1];
+			string dir = Path.GetDirectoryName(selectedImage.Text);
+			string name = Path.GetFileNameWithoutExtension(selectedImage.Text);
+
+			File.WriteAllText(dir + "\\" + name + ".hash", h[0]);
+			File.WriteAllText(dir + "\\" + name + ".key", h[1]);
 
 			run.Text = Resources.Frame_UnmaskImage_Run_File_Mask;
-
-			ShowAes();
 		}
 
 		/**
 		 * Unmask the file from an image.
 		 */
+
 		private void UnmaskImage()
 		{
 			run.Text = Resources.Frame_MaskImage_Running___;
 
 			//Prevent the GUI thread from getting clogged.
-			var thread = new Thread(() => Masker.Unmask(selectedImage.Text, hash.Text, key.Text));
+			string h = File.ReadAllText(hash.Text);
+			string k = File.ReadAllText(key.Text);
+
+			var thread = new Thread(() => Masker.Unmask(selectedImage.Text, h, k));
 
 			thread.Start();
 			thread.Join();
@@ -99,37 +107,33 @@ namespace File_Mask
 		/**
 		 * Creates a file open dialog filter based on the Formats enum.
 		 */
+
 		private static string EnumToFilter(string label)
 		{
 			string filter = label + "|";
-			string[] types = Enum.GetNames(typeof(Formats));
+			string[] types = Enum.GetNames(typeof (Formats));
 
 			return types.Aggregate(filter, (current, type) => current + ("*." + type + ";"));
-		}
-
-		private bool IsImage()
-		{
-			var ext = Path.GetExtension(selectedImage.Text);
-			return Enum.GetNames(typeof(Formats)).Any(format => format == ext);
 		}
 
 		/**
 		 * Check the specified image to see if it has enough pixels
 		 */
+
 		private bool VerifyPixels()
 		{
 			//If a file is specified display the minimum number of recommended pixels.
 			if (Util.IsFilled(selectedFile))
 			{
-				long size = new FileInfo(selectedFile.Text).Length * 8;
-				var pixels = (int)(size / 6);
+				long size = new FileInfo(selectedFile.Text).Length*8;
+				var pixels = (int) (size/6);
 				value.Text = pixels.ToString(CultureInfo.InvariantCulture);
 
 				//If an image is specified determine of the image has enough pixels.
 				if (Util.IsFilled(selectedImage))
 				{
 					var bmp = new Bitmap(selectedImage.Text);
-					int area = bmp.Width * bmp.Height;
+					int area = bmp.Width*bmp.Height;
 
 					if (area >= pixels)
 					{
@@ -148,15 +152,18 @@ namespace File_Mask
 		 * Confirms whether or not the user really wants to
 		 * mask an image.
 		 */
+
 		private static bool Confirm()
 		{
-			DialogResult res = MessageBox.Show(Notices.TooLittlePixels, Resources.Frame_Confirm_Warning_, MessageBoxButtons.OKCancel);
+			DialogResult res = MessageBox.Show(Notices.TooLittlePixels, Resources.Frame_Confirm_Warning_,
+				MessageBoxButtons.OKCancel);
 			return res == DialogResult.OK;
 		}
 
 		/**
 		 * Open the file chooser dialog for the file to mask.
 		 */
+
 		private void browseFile_Click(object sender, EventArgs e)
 		{
 			openFile.Filter = "";
@@ -174,6 +181,7 @@ namespace File_Mask
 		/**
 		 * Open the file choose dialog for the image to mask the file with.
 		 */
+
 		private void browseImage_Click(object sender, EventArgs e)
 		{
 			openFile.Filter = EnumToFilter("Image Files");
@@ -187,23 +195,56 @@ namespace File_Mask
 		}
 
 		/**
+		 * Open the file choose dialog for the hash to unmask with.
+		 */
+
+		private void browseHash_Click(object sender, EventArgs e)
+		{
+			openFile.Filter = "";
+
+			if (openFile.ShowDialog() == DialogResult.OK)
+			{
+				hash.Text = openFile.FileName;
+			}
+		}
+
+		/**
+		 * Open the file choose dialog for the key to unmask with.
+		 */
+
+		private void browseKey_Click(object sender, EventArgs e)
+		{
+			openFile.Filter = "";
+
+			if (openFile.ShowDialog() == DialogResult.OK)
+			{
+				key.Text = openFile.FileName;
+			}
+		}
+
+		/**
 		 * Perform the appropriate action.
 		 */
+
 		private void run_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				if(!(applyMask.Checked || removeMask.Checked))
+				if (!(applyMask.Checked || removeMask.Checked))
 					throw new MaskException(Notices.MissingAction);
 
 				if (applyMask.Checked)
 				{
+					var size = new Bitmap(selectedImage.Text);
+
 					if (!Util.IsFilled(selectedFile, selectedImage))
 						throw new MaskException(Notices.MissingFileAndImage);
 					if (!(File.Exists(selectedFile.Text) && File.Exists(selectedImage.Text)))
 						throw new MaskException(Notices.MissingResource);
-					if (IsImage())
+					if (!Util.IsImage(selectedImage.Text))
 						throw new MaskException(Notices.InvalidFileFormat);
+					if (!Tour.IsValid(size.Width, size.Height))
+						throw new MaskException(Notices.InvalidDimensions);
 					if (VerifyPixels() || Confirm())
 						MaskImage();
 				}
@@ -213,7 +254,7 @@ namespace File_Mask
 						throw new MaskException(Notices.MissingAes);
 					if (!File.Exists(selectedImage.Text))
 						throw new MaskException(Notices.MissingImage);
-					if(!IsImage())
+					if (!Util.IsImage(selectedImage.Text))
 						throw new MaskException(Notices.InvalidFileFormat);
 
 					UnmaskImage();
@@ -228,6 +269,7 @@ namespace File_Mask
 		/**
 		 * Hide AES fields.
 		 */
+
 		private void applyMask_CheckedChanged(object sender, EventArgs e)
 		{
 			if (!applyMask.Checked) return;
@@ -241,6 +283,7 @@ namespace File_Mask
 		/**
 		 * Show AES fields.
 		 */
+
 		private void removeMask_CheckedChanged(object sender, EventArgs e)
 		{
 			if (removeMask.Checked)
@@ -254,6 +297,7 @@ namespace File_Mask
 		/**
 		 * Make it user friendly.
 		 */
+
 		private void hash_Click(object sender, EventArgs e)
 		{
 			hash.SelectAll();
