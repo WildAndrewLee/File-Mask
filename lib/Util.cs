@@ -11,7 +11,7 @@ using System.Windows.Forms;
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 namespace File_Mask.lib

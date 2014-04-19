@@ -1,16 +1,17 @@
-﻿/**
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+/**
  * File Mask
  * 
  * An open source application written in C# to facilitate the
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.0
+ * @version 1.0.2
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace File_Mask.lib.tour
 {

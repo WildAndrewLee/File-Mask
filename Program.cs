@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+
 /**
  * File Mask
  * 
@@ -7,9 +8,8 @@ using System.Windows.Forms;
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.1
+ * @version 1.0.2
  */
-using File_Mask.lib.tour;
 
 namespace File_Mask
 {
