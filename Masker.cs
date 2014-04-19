@@ -97,10 +97,18 @@ namespace File_Mask
 			string name = Path.GetFileNameWithoutExtension(image);
 			string extension = Path.GetExtension(image);
 
+			Benchmark mark = new Benchmark("Time to Write Masked File", true);
+
 			maskedImage.Save(dir + "\\" + name + " - Masked" + extension);
 
+			mark.Time();
+
 			//Generate AES keys and return.
+			mark = new Benchmark("Time to Generate Encryption Keys", true);
+
 			string[] hash = Crypt.Encrypt(Path.GetFileName(file) + ":" + bits.Length + ":" + tour.Export());
+
+			mark.Time();
 
 			return hash;
 		}
@@ -115,8 +123,14 @@ namespace File_Mask
 			//Clone pixels to prevent destruction.
 			var newPixels = (int[]) pixels.Clone();
 
+			Benchmark mark = new Benchmark("Time to Generate Tour", true);
+			
 			Square start = tour.CreateTour();
 			Square current = start;
+
+			mark.Time();
+
+			mark = new Benchmark("Time to Modify Pixel Channels", true);
 
 			for (int n = 0, length = bits.Length; n < length; n += 3)
 			{
@@ -151,6 +165,8 @@ namespace File_Mask
 				//Select the next pixel to manipulate.
 				current = current.Next ?? start;
 			}
+
+			mark.Time();
 
 			return newPixels;
 		}

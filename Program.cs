@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-
 /**
  * File Mask
  * 
@@ -10,6 +9,7 @@ using System.Windows.Forms;
  * @author Andrew Lee
  * @version 1.0.1
  */
+using File_Mask.lib.tour;
 
 namespace File_Mask
 {

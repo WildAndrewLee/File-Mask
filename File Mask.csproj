@@ -71,6 +71,7 @@
       <DependentUpon>Frame.cs</DependentUpon>
     </Compile>
     <Compile Include="lib\Animator.cs" />
+    <Compile Include="lib\Benchmark.cs" />
     <Compile Include="lib\Crypt.cs" />
     <Compile Include="lib\tour\Square.cs" />
     <Compile Include="lib\tour\Tour.cs" />

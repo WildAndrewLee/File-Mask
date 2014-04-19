@@ -3,10 +3,8 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using File_Mask.lib;
-using File_Mask.lib.tour;
 using File_Mask.Properties;
 
 /**
@@ -16,7 +14,7 @@ using File_Mask.Properties;
  * merging and extraction of files and/from images.
  * 
  * @author Andrew Lee
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 namespace File_Mask
@@ -66,14 +64,11 @@ namespace File_Mask
 		{
 			run.Text = Resources.Frame_MaskImage_Running___;
 
-			string[] h = null;
+			Benchmark mark = new Benchmark("Time To Mask Image", true);
 
-			//New thread so the GUI thread doesn't get clogged.
-			var thread = new Thread(() => { h = Masker.Mask(selectedFile.Text, selectedImage.Text); }
-				);
+			string[] h = Masker.Mask(selectedFile.Text, selectedImage.Text);
 
-			thread.Start();
-			thread.Join();
+			mark.Time();
 
 			string dir = Path.GetDirectoryName(selectedImage.Text);
 			string name = Path.GetFileNameWithoutExtension(selectedImage.Text);
@@ -96,10 +91,7 @@ namespace File_Mask
 			string h = File.ReadAllText(hash.Text);
 			string k = File.ReadAllText(key.Text);
 
-			var thread = new Thread(() => Masker.Unmask(selectedImage.Text, h, k));
-
-			thread.Start();
-			thread.Join();
+			Masker.Unmask(selectedImage.Text, h, k);
 
 			run.Text = Resources.Frame_UnmaskImage_Run_File_Mask;
 		}
@@ -235,16 +227,12 @@ namespace File_Mask
 
 				if (applyMask.Checked)
 				{
-					var size = new Bitmap(selectedImage.Text);
-
 					if (!Util.IsFilled(selectedFile, selectedImage))
 						throw new MaskException(Notices.MissingFileAndImage);
 					if (!(File.Exists(selectedFile.Text) && File.Exists(selectedImage.Text)))
 						throw new MaskException(Notices.MissingResource);
 					if (!Util.IsImage(selectedImage.Text))
 						throw new MaskException(Notices.InvalidFileFormat);
-					if (!Tour.IsValid(size.Width, size.Height))
-						throw new MaskException(Notices.InvalidDimensions);
 					if (VerifyPixels() || Confirm())
 						MaskImage();
 				}
@@ -292,20 +280,6 @@ namespace File_Mask
 
 				hash.ReadOnly = key.ReadOnly = false;
 			}
-		}
-
-		/**
-		 * Make it user friendly.
-		 */
-
-		private void hash_Click(object sender, EventArgs e)
-		{
-			hash.SelectAll();
-		}
-
-		private void key_Click(object sender, EventArgs e)
-		{
-			key.SelectAll();
 		}
 	}
 }

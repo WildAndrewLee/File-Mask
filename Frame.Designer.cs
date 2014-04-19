@@ -139,7 +139,6 @@
 			this.hash.ReadOnly = true;
 			this.hash.Size = new System.Drawing.Size(174, 20);
 			this.hash.TabIndex = 8;
-			this.hash.Click += new System.EventHandler(this.hash_Click);
 			// 
 			// browseFile
 			// 
@@ -177,7 +176,6 @@
 			this.key.ReadOnly = true;
 			this.key.Size = new System.Drawing.Size(174, 20);
 			this.key.TabIndex = 12;
-			this.key.Click += new System.EventHandler(this.key_Click);
 			// 
 			// noticeContainer
 			// 
