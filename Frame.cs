@@ -39,8 +39,8 @@ namespace File_Mask
 			var animator = new Animator(this);
 			var aes = new Animator(aesContainer);
 
-			animator.Resize(344, 169, 100);
-			aes.Resize(344, 0, 100);
+			animator.Resize(Width, 169, 100);
+			aes.Resize(aesContainer.Width, 0, 100);
 		}
 
 		/**
@@ -52,8 +52,8 @@ namespace File_Mask
 			var animator = new Animator(this);
 			var aes = new Animator(aesContainer);
 
-			animator.Resize(344, 197, 100);
-			aes.Resize(344, 55, 100);
+			animator.Resize(Width, 197, 100);
+			aes.Resize(aesContainer.Width, 55, 100);
 		}
 
 		/**

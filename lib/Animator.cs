@@ -66,10 +66,10 @@ namespace File_Mask.lib
 		}
 
 		/**
-		 * Executes every time to timer ticks and resizes the specified control.
+		 * Executes every time the timer ticks and resizes the specified control.
 		 */
 
-		private void TimerTick(Object myObject, EventArgs myEventArgs)
+		private void TimerTick(Object obj, EventArgs args)
 		{
 			/**
 			 * Check to see if this is the last tick.

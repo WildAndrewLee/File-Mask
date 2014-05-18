@@ -49,8 +49,8 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.aesContainer = new System.Windows.Forms.Panel();
-			this.browseHash = new System.Windows.Forms.Button();
 			this.browseKey = new System.Windows.Forms.Button();
+			this.browseHash = new System.Windows.Forms.Button();
 			this.noticeContainer.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -242,16 +242,6 @@
 			this.aesContainer.Size = new System.Drawing.Size(328, 0);
 			this.aesContainer.TabIndex = 16;
 			// 
-			// browseHash
-			// 
-			this.browseHash.Location = new System.Drawing.Point(250, 1);
-			this.browseHash.Name = "browseHash";
-			this.browseHash.Size = new System.Drawing.Size(66, 23);
-			this.browseHash.TabIndex = 13;
-			this.browseHash.Text = "Browse";
-			this.browseHash.UseVisualStyleBackColor = true;
-			this.browseHash.Click += new System.EventHandler(this.browseHash_Click);
-			// 
 			// browseKey
 			// 
 			this.browseKey.Location = new System.Drawing.Point(250, 27);
@@ -261,6 +251,16 @@
 			this.browseKey.Text = "Browse";
 			this.browseKey.UseVisualStyleBackColor = true;
 			this.browseKey.Click += new System.EventHandler(this.browseKey_Click);
+			// 
+			// browseHash
+			// 
+			this.browseHash.Location = new System.Drawing.Point(250, 1);
+			this.browseHash.Name = "browseHash";
+			this.browseHash.Size = new System.Drawing.Size(66, 23);
+			this.browseHash.TabIndex = 13;
+			this.browseHash.Text = "Browse";
+			this.browseHash.UseVisualStyleBackColor = true;
+			this.browseHash.Click += new System.EventHandler(this.browseHash_Click);
 			// 
 			// Frame
 			// 
